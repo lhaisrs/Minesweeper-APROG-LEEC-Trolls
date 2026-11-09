@@ -54,12 +54,12 @@ Metodologia: desenvolvimento incremental, organizado em quatro Sprints.
 
 - [x] Criar a estrutura de diretórios e ficheiros do projeto.
 - [ ] Definir a estrutura `s_casa` e o tipo associado `t_casa`.
-- [ ] Definir as dimensões do tabuleiro (`NROWS` e `NCOLS`).
-- [ ] Definir o número de bombas (`NBOMBS`).
+- [x] Definir as dimensões do tabuleiro (`NROWS` e `NCOLS`).
+- [x] Definir o número de bombas (`NBOMBS`).
 - [ ] Definir a representação do tabuleiro através de um vetor de estruturas.
-- [ ] Implementar a inicialização do tabuleiro.
+- [x] Implementar a inicialização do tabuleiro.
 - [ ] Implementar a identificação dos índices das oito casas vizinhas.
-- [ ] Tratar os limites do tabuleiro e as posições sem vizinhos.
+- [x] Tratar os limites do tabuleiro e as posições sem vizinhos.
 - [ ] Realizar testes de inicialização e identificação de vizinhos.
 
 #### Entregáveis
