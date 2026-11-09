@@ -244,4 +244,4 @@ O projeto será considerado concluído quando:
 **Curso:** Licenciatura em Engenharia Eletrotécnica e de Computadores  
 **Instituição:** Instituto Superior de Engenharia do Porto (ISEP)  
 **Ano letivo:** 2026/2027
-**Estudantes**: Lhaís Silva, Jorge Leitão e Tiago Marques
+**Estudantes:** Lhaís Silva, Jorge Leitão e Tiago Marques
