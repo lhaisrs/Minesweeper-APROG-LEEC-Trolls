@@ -37,7 +37,7 @@ int** gerar_tabuleiro(int **tabuleiro, int N_ROWS, int N_COLS, int N_BOMBS) {
             if (tabuleiro[i][j] == -1) {
                 continue; // Pular a célula com bomba, não precisamos contar vizinhos
             } else {
-                printf("Valor da célula (%d, %d): %d\n", i, j, tabuleiro[i][j]);
+                //printf("Valor da célula (%d, %d): %d\n", i, j, tabuleiro[i][j]);
                 // Armazenar o valor da célula atual
             }
 
