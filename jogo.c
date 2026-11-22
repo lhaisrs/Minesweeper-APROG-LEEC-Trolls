@@ -1,65 +1,89 @@
-#include <stdio.h>
+#include <limits.h>
 #include <stdlib.h>
-#include "tabuleiro.h"
 
-void verificar_bombas(int **tabuleiro, int N_ROWS, int N_COLS, int N_BOMBS) {
+#include "jogo.h"
 
-    // Colocando bombas aleatoriamente no tabuleiro
-    int bombs_placed = 0;
-    while (bombs_placed < N_BOMBS) {
-        int row = rand() % N_ROWS;
-        int col = rand() % N_COLS;
-
-        // Verifica se já existe uma bomba nessa posição
-        if (tabuleiro[row][col] == 0) {
-            tabuleiro[row][col] = -1; // -1 representa uma bomba
-            bombs_placed++;
-        }
+int identificar_vizinhos(t_casa *tabuleiro, int N_ROWS, int N_COLS)
+{
+    // Verifica se o tabuleiro é nulo ou se as dimensões são inválidas: 
+    // Se os valores são inválidos, não existem vizinhos a serem identificados, então a função retorna 0 (falso)
+    if (tabuleiro == NULL || N_ROWS <= 0 || N_COLS <= 0 || N_ROWS > INT_MAX / N_COLS){
+        return 0;
     }
 
-}
+    for (int linha = 0; linha < N_ROWS; linha++){
+        for (int coluna = 0; coluna < N_COLS; coluna++){
+            int indice = linha * N_COLS + coluna;
+            t_casa *casa = &tabuleiro[indice]; // Uma casa é representada por um índice no array tabuleiro porque é a posição no tabuleiro
 
+            casa->linha = linha; // Atribui a linha da casa
+            casa->coluna = coluna; // Atribui a coluna da casa
+            casa->valor = 0; // Inicializa o valor da casa como 0, indicando que não há bombas vizinhas inicialmente
 
-int** gerar_tabuleiro(int **tabuleiro, int N_ROWS, int N_COLS, int N_BOMBS) {
-
-    // Inicializando o tabuleiro com zeros
-    for (int i = 0; i < N_ROWS; i++) {
-        for (int j = 0; j < N_COLS; j++) {
-            tabuleiro[i][j] = 0;
-        }
-    }
-
-    verificar_bombas(tabuleiro, N_ROWS, N_COLS, N_BOMBS);
-
-    // Calcular o número de bombas vizinhas para cada célula
-    for (int i = 0; i < N_ROWS; i++) {
-        for (int j = 0; j < N_COLS; j++) {
-            if (tabuleiro[i][j] == -1) {
-                continue; // Pular a célula com bomba, não precisamos contar vizinhos
-            } else {
-                //printf("Valor da célula (%d, %d): %d\n", i, j, tabuleiro[i][j]);
-                // Armazenar o valor da célula atual
+            for (int i = 0; i < 8; i++){ // O array percorre os 8 vizinhos possíveis de uma casa (norte, nordeste, leste, sudeste, sul, sudoeste, oeste, noroeste)
+                casa->vizinhos[i] = -1;
             }
 
-            int bomb_count = 0;
-            for (int x = -1; x <= 1; x++) {
-                for (int y = -1; y <= 1; y++) {
-                    if (x == 0 && y == 0) continue; // Pular a célula em si
-                    int new_row = i + x;
-                    int new_col = j + y;
+            int vizinho = 0;
 
-                    // Verificar limites e contar bombas
-                    if (new_row >= 0 && new_row < N_ROWS && new_col >= 0 && new_col < N_COLS) {
-                        if (tabuleiro[new_row][new_col] == -1) {
-                            bomb_count++;
-                        }
+            for (int delta_linha = -1; delta_linha <= 1; delta_linha++){
+                for (int delta_coluna = -1; delta_coluna <= 1; delta_coluna++){
+                    if (delta_linha == 0 && delta_coluna == 0){
+                        // Se apenas a casa atual, não é um vizinho, então continue para o próximo vizinho
+                        continue;
+                    }
+
+                    int linha_vizinha = linha + delta_linha;
+                    int coluna_vizinha = coluna + delta_coluna;
+
+                    if (linha_vizinha >= 0 && linha_vizinha < N_ROWS && coluna_vizinha >= 0 && coluna_vizinha < N_COLS){
+                        casa->vizinhos[vizinho++] = linha_vizinha * N_COLS + coluna_vizinha;
                     }
                 }
             }
-
-            tabuleiro[i][j] = bomb_count;
         }
     }
 
-    return tabuleiro;
+    return 1;
+}
+
+int gerar_tabuleiro(t_casa *tabuleiro, int N_ROWS, int N_COLS, int N_BOMBS)
+{
+    if (tabuleiro == NULL || N_ROWS <= 0 || N_COLS <= 0 || N_ROWS > INT_MAX / N_COLS || N_BOMBS < 0 ||N_BOMBS > N_ROWS * N_COLS){
+        return 0;
+    }
+
+    if (!identificar_vizinhos(tabuleiro, N_ROWS, N_COLS)){
+        return 0;
+    }
+
+    int total_casas = N_ROWS * N_COLS;
+    int bombas_colocadas = 0;
+
+    while (bombas_colocadas < N_BOMBS) {
+        int indice = rand() % total_casas;
+        if (tabuleiro[indice].valor == 0){
+            tabuleiro[indice].valor = -1;
+            bombas_colocadas++;
+        }
+    }
+
+    for (int indice = 0; indice < total_casas; indice++){
+        t_casa *casa = &tabuleiro[indice];
+        if (casa->valor == -1){
+            continue;
+        }
+
+        int bombas_vizinhas = 0;
+        for (int i = 0; i < 8 && casa->vizinhos[i] != -1; i++){
+            if (tabuleiro[casa->vizinhos[i]].valor == -1){
+                //Verifica se o vizinho é uma bomba, se for, incrementa o contador de bombas vizinhas
+                bombas_vizinhas++;
+            }
+        }
+        
+        casa->valor = bombas_vizinhas;
+    }
+
+    return 1;
 }

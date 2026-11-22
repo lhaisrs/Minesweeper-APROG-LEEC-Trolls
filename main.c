@@ -1,13 +1,10 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include "jogo.c"
-#include "tabuleiro.c"
+
+#include "tabuleiro.h"
 
 int main(void)
 {
-
     int N_ROWS, N_COLS, N_BOMBS;
-    int **tabuleiro;
 
     printf("Minisweeper\n");
 
@@ -20,17 +17,14 @@ int main(void)
     printf("Insira o número de bombas: ");
     scanf("%d", &N_BOMBS);
 
-    // Criação do tabuleiro dinamicamente na mémoria usando malloc
-    alocar_tabuleiro(&tabuleiro, N_ROWS, N_COLS);
+    // Criação do tabuleiro dinamicamente usando a struct t_casa e a função alocar_tabuleiro
+    t_casa *tabuleiro = alocar_tabuleiro(N_ROWS, N_COLS);
 
-    // Gerar o tabuleiro de acordo com as regras do jogo, incluindo a colocação de bombas e a contagem de bombas vizinhas
-    tabuleiro = gerar_tabuleiro(tabuleiro, N_ROWS, N_COLS, N_BOMBS);
-
-    // Exibir o tabuleiro gerado
+    // Exibir o tabuleiro gerado com as bombas e os vizinhos identificados
     exibir_tabuleiro(tabuleiro, N_ROWS, N_COLS);
 
     // Limpar o tabuleiro da memória para evitar vazamentos de memória
-    limpar_tabuleiro(tabuleiro, N_ROWS);
-    
+    limpar_tabuleiro(tabuleiro);
+
     return 0;
 }

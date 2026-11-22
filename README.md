@@ -29,12 +29,22 @@ MineSweeper/
 | Ficheiro | Responsabilidade |
 |---|---|
 | `main.c` | Inicialização e controlo do fluxo principal da aplicação. |
-| `tabuleiro.h` | Definição das estruturas e declaração das funções relacionadas com o tabuleiro. |
-| `tabuleiro.c` | Inicialização do tabuleiro, distribuição das bombas, cálculo dos vizinhos e apresentação da solução. |
-| `jogo.h` | Declaração das funções relacionadas com a mecânica do jogo. |
-| `jogo.c` | Gestão das jogadas, revelação de casas, bandeiras e condições de vitória ou derrota. |
+| `tabuleiro.h` | Definição de `s_casa`/`t_casa` e declaração das funções do tabuleiro. |
+| `tabuleiro.c` | Alocação, libertação e apresentação do tabuleiro. |
+| `jogo.h` | Declaração das funções de geração do tabuleiro e identificação de vizinhos. |
+| `jogo.c` | Distribuição das bombas, identificação dos vizinhos e cálculo das contagens. |
 | `README.md` | Documentação do projeto e acompanhamento do cronograma de desenvolvimento. |
 | `README.txt` | Documentação do projeto solicitada para a entrega do projecto. |
+
+O tabuleiro é um vetor linear de `t_casa`. A casa da linha `i` e coluna `j` tem
+índice `i * N_COLS + j`; cada casa guarda os índices lineares das casas vizinhas
+no vetor `vizinhos`. As posições sem vizinho são preenchidas com `-1`.
+
+Para compilar:
+
+```sh
+cc -std=c11 -Wall -Wextra -Werror main.c jogo.c tabuleiro.c -o minesweeper
+```
 
 ## 3. Cronograma de desenvolvimento
 
@@ -53,14 +63,14 @@ Metodologia: desenvolvimento incremental, organizado em quatro Sprints.
 #### Tarefas
 
 - [x] Criar a estrutura de diretórios e ficheiros do projeto.
-- [ ] Definir a estrutura `s_casa` e o tipo associado `t_casa`.
+- [x] Definir a estrutura `s_casa` e o tipo associado `t_casa`.
 - [x] Definir as dimensões do tabuleiro (`NROWS` e `NCOLS`).
 - [x] Definir o número de bombas (`NBOMBS`).
-- [ ] Definir a representação do tabuleiro através de um vetor de estruturas.
+- [x] Definir a representação do tabuleiro através de um vetor de estruturas.
 - [x] Implementar a inicialização do tabuleiro.
-- [ ] Implementar a identificação dos índices das oito casas vizinhas.
+- [x] Implementar a identificação dos índices das oito casas vizinhas.
 - [x] Tratar os limites do tabuleiro e as posições sem vizinhos.
-- [ ] Realizar testes de inicialização e identificação de vizinhos.
+- [x] Realizar testes de inicialização e identificação de vizinhos.
 
 #### Entregáveis
 
@@ -71,10 +81,10 @@ Metodologia: desenvolvimento incremental, organizado em quatro Sprints.
 
 #### Critérios de aceitação
 
-- [ ] O projeto encontra-se organizado nos módulos definidos.
-- [ ] O tabuleiro é inicializado corretamente.
-- [ ] Todas as casas possuem os seus índices de vizinhos corretamente identificados.
-- [ ] Os cantos, extremidades e posições interiores são tratados corretamente.
+- [x] O projeto encontra-se organizado nos módulos definidos.
+- [x] O tabuleiro é inicializado corretamente.
+- [x] Todas as casas possuem os seus índices de vizinhos corretamente identificados.
+- [x] Os cantos, extremidades e posições interiores são tratados corretamente.
 
 ---
 
