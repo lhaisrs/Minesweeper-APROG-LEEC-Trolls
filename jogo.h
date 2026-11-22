@@ -1,3 +1,4 @@
+#ifndef JOGO_H
 #define JOGO_H
 
 #include "tabuleiro.h"
@@ -7,3 +8,5 @@
 int identificar_vizinhos(t_casa *tabuleiro, int N_ROWS, int N_COLS);
 
 int gerar_tabuleiro(t_casa *tabuleiro, int N_ROWS, int N_COLS, int N_BOMBS);
+
+#endif

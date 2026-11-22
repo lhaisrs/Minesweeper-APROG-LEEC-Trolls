@@ -5,11 +5,10 @@
 
 #include "tabuleiro.h"
 
-// INT_MAX é um valor em <limits.h> e representa o maior valor que um int pode ter. 
+//INT_MAX é um valor em <limits.h> e representa o maior valor que um int pode ter. 
 //Ele é usado para verificar se a multiplicação de N_ROWS e N_COLS não excede o limite máximo de um int, evitando assim overflow  
 
-t_casa *alocar_tabuleiro(int N_ROWS, int N_COLS)
-{
+t_casa *alocar_tabuleiro(int N_ROWS, int N_COLS) {
     if (N_ROWS <= 0 || N_COLS <= 0 || N_ROWS > INT_MAX / N_COLS) {
         return NULL;
     }

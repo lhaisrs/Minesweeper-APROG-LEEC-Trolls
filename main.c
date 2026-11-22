@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+#include "jogo.h"
 #include "tabuleiro.h"
 
 int main(void)
@@ -19,6 +20,9 @@ int main(void)
 
     // Criação do tabuleiro dinamicamente usando a struct t_casa e a função alocar_tabuleiro
     t_casa *tabuleiro = alocar_tabuleiro(N_ROWS, N_COLS);
+
+    // Gerar o tabuleiro com as bombas e identificar os vizinhos usando a função gerar_tabuleiro
+    gerar_tabuleiro(tabuleiro, N_ROWS, N_COLS, N_BOMBS);
 
     // Exibir o tabuleiro gerado com as bombas e os vizinhos identificados
     exibir_tabuleiro(tabuleiro, N_ROWS, N_COLS);
